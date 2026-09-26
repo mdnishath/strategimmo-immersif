@@ -120,15 +120,15 @@ export default function Hero() {
         </div>
 
         {/* carte du bien (desktop) */}
-        <div className="glass pointer-events-auto absolute right-10 top-28 z-10 hidden w-72 rounded-2xl p-5 xl:block">
-          <p className="text-[0.6rem] uppercase tracking-[0.22em] text-mist">Bien à la une · réf. {bien.ref}</p>
-          <p className="font-display mt-2 text-2xl leading-tight text-ivory">{bien.title}</p>
-          <p className="mt-1 text-sm text-mist">{bien.city}</p>
-          <p className="font-display mt-3 text-3xl text-ivory">{eur(bien.price)}</p>
-          <p className="mt-1 text-xs text-mist">{bien.surface} m² · {bien.bedrooms} chambres · {bien.rooms} pièces</p>
-          <div className="mt-4 flex items-center gap-2 border-t border-ivory/10 pt-3 text-xs text-mist">
-            <Stars value={averageRating} /> <span className="text-ivory">{fr(averageRating)}/5</span> · {totalReviews} avis · {agencies.length} agences
-          </div>
+        <a href={bien.url} target="_blank" rel="noreferrer" className="glass pointer-events-auto absolute right-16 top-[6.5rem] z-10 hidden w-64 rounded-2xl p-4 transition-colors hover:border-copper/50 xl:block">
+          <p className="text-[0.58rem] uppercase tracking-[0.22em] text-mist">Bien à la une · réf. {bien.ref}</p>
+          <p className="font-display mt-1.5 truncate text-xl leading-tight text-ivory">{bien.title}</p>
+          <p className="text-xs text-mist">{bien.city}</p>
+          <p className="font-display mt-2 text-2xl text-ivory">{eur(bien.price)}</p>
+          <p className="text-[0.7rem] text-mist">{bien.surface} m² · {bien.bedrooms} ch. · {bien.rooms} pièces</p>
+        </a>
+        <div className="glass pointer-events-none absolute bottom-[7.6rem] right-16 z-10 hidden items-center gap-2 rounded-full px-4 py-2 text-xs text-mist xl:flex">
+          <Stars value={averageRating} /> <span className="text-ivory">{fr(averageRating)}/5</span> · {totalReviews} avis · {agencies.length} agences
         </div>
 
         {isFirst && !reduced && (

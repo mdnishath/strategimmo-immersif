@@ -74,7 +74,7 @@ function Card({ b, big = false }: { b: Bien; big?: boolean }) {
         <Image src={photo(b, second, big ? "" : "-md")} alt="" fill sizes={big ? "(max-width: 1024px) 100vw, 60vw" : "(max-width: 640px) 100vw, 25vw"} className={`object-cover transition-all duration-[1.2s] ${hover ? "scale-100 opacity-100" : "scale-110 opacity-0"}`} />
         <div className="absolute inset-0 bg-gradient-to-t from-night/70 via-night/0 to-night/10" />
         <span className="absolute left-4 top-4 rounded-full bg-night/70 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory backdrop-blur">{b.type} · {b.city}</span>
-        {big && <span className="absolute right-4 top-4 rounded-full bg-copper px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white">Coup de cœur</span>}
+        {big && <span className="absolute bottom-4 right-4 rounded-full bg-copper px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white">Coup de cœur</span>}
         <span className="absolute bottom-4 left-4 font-display text-3xl text-ivory md:text-4xl">{eur(b.price)}</span>
       </div>
       <div className={`flex flex-col p-5 ${big ? "justify-center md:p-10" : ""}`}>

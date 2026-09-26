@@ -8,8 +8,10 @@ import * as THREE from "three";
 import { agencies, toMap, type Agency } from "@/config/brand";
 
 /** Carte réelle de la Normandie (tuiles OpenStreetMap, version nuit) en 3D, 11 repères, caméra qui plane vers l'agence choisie. */
-const OVERVIEW_POS = new THREE.Vector3(4, 62, 50);
-const OVERVIEW_LOOK = new THREE.Vector3(4, 0, 2);
+const OVERVIEW_POS = new THREE.Vector3(4, 66, 54);
+const OVERVIEW_LOOK = new THREE.Vector3(4, 0, -6);
+/** dans la vue d'ensemble, on n'étiquette pas les agences du centre de Rouen (trop serrées) */
+const CLUSTERED = new Set(["siege", "sotteville", "unovia", "rive-droite"]);
 type LabelRefs = MutableRefObject<Record<string, HTMLDivElement | null>>;
 
 function MapPlane({ mobile }: { mobile: boolean }) {
@@ -60,7 +62,7 @@ function LabelProjector({ labels, selected, mobile }: { labels: LabelRefs; selec
     for (const a of agencies) {
       const el = labels.current[a.id];
       if (!el) continue;
-      const show = selected ? selected.id === a.id : !mobile;
+      const show = selected ? selected.id === a.id : !mobile && !CLUSTERED.has(a.id);
       if (!show) { el.style.opacity = "0"; continue; }
       const [x, z] = toMap(a.lat, a.lng);
       v.set(x, 3.2, z).project(camera);
@@ -83,7 +85,7 @@ function Rig({ selected, mobile }: { selected: Agency | null; mobile: boolean })
       target.current.set(x + (mobile ? 0 : 5), mobile ? 30 : 22, z + (mobile ? 26 : 20));
       lookTarget.current.set(x, 0.5, z - 1);
     } else {
-      target.current.set(OVERVIEW_POS.x, mobile ? 96 : 62, mobile ? 66 : 50);
+      target.current.set(OVERVIEW_POS.x, mobile ? 100 : 66, mobile ? 70 : 54);
       lookTarget.current.copy(OVERVIEW_LOOK);
     }
     const k = 1 - Math.exp(-dt * 3.2);
