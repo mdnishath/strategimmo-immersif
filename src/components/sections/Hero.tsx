@@ -66,7 +66,7 @@ export default function Hero() {
     let played = false;
     const play = () => { if (played) return; played = true; gsap.to(items, { autoAlpha: 1, y: 0, duration: 1.1, ease: "power3.out", stagger: 0.12, delay: 0.2 }); };
     window.addEventListener("site:ready", play, { once: true });
-    const t = setTimeout(play, 3400);
+    const t = setTimeout(play, sessionStorage.getItem("intro-seen") === "1" && window.location.hash ? 300 : 3400);
     return () => { window.removeEventListener("site:ready", play); clearTimeout(t); };
   }, []);
 

@@ -10,7 +10,19 @@ export default function Loader() {
   const [gone, setGone] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (prefersReducedMotion()) { setGone(true); window.dispatchEvent(new Event("site:ready")); return; }
+    // pas d'intro si on arrive sur une ancre (retour depuis une page bien) ou si déjà vu dans la session
+    const hasHash = window.location.hash.length > 1;
+    const seen = sessionStorage.getItem("intro-seen") === "1";
+    if (prefersReducedMotion() || hasHash || seen) {
+      setGone(true);
+      window.dispatchEvent(new Event("site:ready"));
+      if (hasHash) {
+        const id = window.location.hash.slice(1);
+        setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "instant", block: "start" }), 50);
+      }
+      return;
+    }
+    sessionStorage.setItem("intro-seen", "1");
     window.scrollTo(0, 0);
     const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
     lenis?.stop();
