@@ -107,7 +107,7 @@ export default function Hero() {
             </div>
             <div data-hero="4" className="pointer-events-auto mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button href="#estimation" size="lg" className="w-full sm:w-auto">Estimer mon bien gratuitement</Button>
-              <Button href={isLast ? bien.url : "#biens"} target={isLast ? "_blank" : undefined} variant="ghost" size="lg" className="w-full sm:w-auto">{isLast ? "Voir ce bien" : "Découvrir nos biens"}</Button>
+              <Button href={isLast ? `/biens/${bien.slug}` : "#biens"} variant="ghost" size="lg" className="w-full sm:w-auto">{isLast ? "Visiter ce bien" : "Découvrir nos biens"}</Button>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ export default function Hero() {
         </div>
 
         {/* carte du bien (desktop) */}
-        <a href={bien.url} target="_blank" rel="noreferrer" className="glass pointer-events-auto absolute right-16 top-[6.5rem] z-10 hidden w-64 rounded-2xl p-4 transition-colors hover:border-copper/50 xl:block">
+        <a href={`/biens/${bien.slug}`} className="glass pointer-events-auto absolute right-16 top-[6.5rem] z-10 hidden w-64 rounded-2xl p-4 transition-colors hover:border-copper/50 xl:block">
           <p className="text-[0.58rem] uppercase tracking-[0.22em] text-mist">Bien à la une · réf. {bien.ref}</p>
           <p className="font-display mt-1.5 truncate text-xl leading-tight text-ivory">{bien.title}</p>
           <p className="text-xs text-mist">{bien.city}</p>

@@ -65,9 +65,12 @@ export const fr = (n: number) => String(n).replace(".", ",");
 export const eur = (n: number) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 
 /* ── Carte : emprise de /map/normandy-dark.jpg (tuiles OSM z11, © OpenStreetMap contributors) ── */
-export const MAP_BOUNDS = { N: 50.176898, W: 0.0, S: 49.037868, E: 1.7578125 };
+export const MAP_BOUNDS = { N: 50.02, W: 0.3, S: 49.2, E: 1.5 };
+export const MAP_H = 105.4; // hauteur du plan (largeur 100), même ratio que la texture
 export function toMap(lat: number, lng: number): [number, number] {
+  // projection Web Mercator (la texture vient de tuiles OSM)
+  const m = (la: number) => Math.log(Math.tan(Math.PI / 4 + (la * Math.PI) / 360));
   const u = (lng - MAP_BOUNDS.W) / (MAP_BOUNDS.E - MAP_BOUNDS.W);
-  const v = (MAP_BOUNDS.N - lat) / (MAP_BOUNDS.N - MAP_BOUNDS.S);
-  return [u * 100 - 50, v * 100 - 50];
+  const v = (m(MAP_BOUNDS.N) - m(lat)) / (m(MAP_BOUNDS.N) - m(MAP_BOUNDS.S));
+  return [u * 100 - 50, v * MAP_H - MAP_H / 2];
 }

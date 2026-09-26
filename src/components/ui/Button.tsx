@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 type Variant = "primary" | "ivory" | "ghost" | "link";
 type Size = "md" | "lg";
@@ -17,6 +18,7 @@ export default function Button({ href, children, variant = "primary", size = "md
   href?: string; children: ReactNode; variant?: Variant; size?: Size; className?: string; type?: "button" | "submit"; disabled?: boolean; onClick?: () => void; target?: string;
 }) {
   const cls = `${base} ${variants[variant]} ${variant === "link" ? "" : sizes[size]} ${className}`;
+  if (href && href.startsWith("/")) return <Link href={href} className={cls} onClick={onClick}>{children}</Link>;
   if (href) return <a href={href} className={cls} onClick={onClick} target={target} rel={target === "_blank" ? "noreferrer" : undefined}>{children}</a>;
   return <button type={type} className={cls} disabled={disabled} onClick={onClick}>{children}</button>;
 }

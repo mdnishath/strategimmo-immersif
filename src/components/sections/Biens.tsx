@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 import Lines from "@/components/ui/Lines";
@@ -37,7 +38,7 @@ export default function Biens() {
 
         <Reveal className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-stone">Photos et prix issus des annonces STRATEGiMMO en ligne. Le flux complet des agences sera branché sur la version finale.</p>
-          <Button href="https://www.strategimmo.fr/achat-vente-bien-immobilier-maison-appartement-rouen-76" target="_blank" variant="ghost">Tous les biens en vente ↗</Button>
+          <Button href="#contact" variant="ghost">Recevoir les nouveautés en avant-première</Button>
         </Reveal>
       </div>
     </section>
@@ -46,8 +47,8 @@ export default function Biens() {
 
 function Card({ b, big = false }: { b: Bien; big?: boolean }) {
   const [hover, setHover] = useState(false);
-  const ref = useRef<HTMLAnchorElement>(null);
-  const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el || big) return;
     const r = el.getBoundingClientRect();
@@ -59,22 +60,20 @@ function Card({ b, big = false }: { b: Bien; big?: boolean }) {
   const second = b.photos > 1 ? 2 : 1;
 
   return (
-    <a
+    <div
       ref={ref}
-      href={b.url}
-      target="_blank"
-      rel="noreferrer"
       onMouseEnter={() => setHover(true)}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      className={`panel group relative block overflow-hidden rounded-2xl shadow-card transition-[transform,border-color] duration-300 ease-out hover:border-copper/40 ${big ? "grid lg:grid-cols-[1.5fr_1fr]" : ""}`}
+      className={`panel group relative overflow-hidden rounded-2xl shadow-card transition-[transform,border-color] duration-300 ease-out hover:border-copper/40 ${big ? "grid lg:grid-cols-[1.5fr_1fr]" : ""}`}
     >
+      <Link href={`/biens/${b.slug}`} className="absolute inset-0 z-10" aria-label={`Voir ${b.title}`} />
       <div className={`relative overflow-hidden ${big ? "aspect-[16/10] lg:aspect-auto lg:min-h-[520px]" : "aspect-[4/3]"}`}>
         <Image src={photo(b, 1, big ? "" : "-md")} alt={b.title} fill sizes={big ? "(max-width: 1024px) 100vw, 60vw" : "(max-width: 640px) 100vw, 25vw"} className={`object-cover transition-all duration-[1.2s] ${hover ? "scale-105 opacity-0" : "opacity-100"}`} />
         <Image src={photo(b, second, big ? "" : "-md")} alt="" fill sizes={big ? "(max-width: 1024px) 100vw, 60vw" : "(max-width: 640px) 100vw, 25vw"} className={`object-cover transition-all duration-[1.2s] ${hover ? "scale-100 opacity-100" : "scale-110 opacity-0"}`} />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/70 via-night/0 to-night/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/10 to-night/10" />
         <span className="absolute left-4 top-4 rounded-full bg-night/70 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-ivory backdrop-blur">{b.type} · {b.city}</span>
-        {big && <span className="absolute bottom-4 right-4 rounded-full bg-copper px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white">Coup de cœur</span>}
+        {b.badge && <span className="absolute bottom-4 right-4 rounded-full bg-copper px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-white">{b.badge}</span>}
         <span className="absolute bottom-4 left-4 font-display text-3xl text-ivory md:text-4xl">{eur(b.price)}</span>
       </div>
       <div className={`flex flex-col p-5 ${big ? "justify-center md:p-10" : ""}`}>
@@ -86,8 +85,8 @@ function Card({ b, big = false }: { b: Bien; big?: boolean }) {
             {b.highlights.map((h) => (<li key={h} className="flex gap-3"><span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-copper" />{h}</li>))}
           </ul>
         )}
-        <span className={`mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-copper transition-colors group-hover:text-ivory`}>Voir le bien <span aria-hidden="true">→</span></span>
+        <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-copper transition-colors group-hover:text-ivory">Visiter ce bien <span aria-hidden="true">→</span></span>
       </div>
-    </a>
+    </div>
   );
 }

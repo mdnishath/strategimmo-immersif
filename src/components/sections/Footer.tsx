@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import { brand, agencies } from "@/config/brand";
 
@@ -16,7 +17,7 @@ export default function Footer() {
         </div>
         <div>
           <h3 className="text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-stone">Nos agences</h3>
-          <ul className="mt-4 grid gap-1.5 text-sm text-ivory/80">{agencies.map((a) => (<li key={a.id}><a href="#agences" className="transition-colors hover:text-copper">{a.name} <span className="text-stone">· {a.area}</span></a></li>))}</ul>
+          <ul className="mt-4 grid gap-1.5 text-sm text-ivory/80">{agencies.map((a) => (<li key={a.id}><Link href="/#agences" className="transition-colors hover:text-copper">{a.name} <span className="text-stone">· {a.area}</span></Link></li>))}</ul>
         </div>
         <div>
           <h3 className="text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-stone">Siège</h3>
@@ -25,7 +26,7 @@ export default function Footer() {
             <li><a href={`mailto:${brand.email}`} className="transition-colors hover:text-copper">{brand.email}</a></li>
             <li className="pt-2 text-mist">{brand.address.street}<br />{brand.address.zip} {brand.address.city}</li>
           </ul>
-          <a href="#estimation" className="mt-6 inline-flex h-11 items-center rounded-full bg-copper px-5 text-sm font-semibold text-white hover:bg-copper-deep">Estimer mon bien</a>
+          <Link href="/#estimation" className="mt-6 inline-flex h-11 items-center rounded-full bg-copper px-5 text-sm font-semibold text-white hover:bg-copper-deep">Estimer mon bien</Link>
         </div>
       </div>
       <p className="container-x mt-12 text-[0.64rem] leading-relaxed text-stone">Photographies des biens et du Gros-Horloge : © STRATEGiMMO · Carte : © OpenStreetMap contributors.</p>

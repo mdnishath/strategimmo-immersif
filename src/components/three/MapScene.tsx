@@ -5,13 +5,13 @@ import { Suspense, useMemo, useRef, useState, type MutableRefObject } from "reac
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { agencies, toMap, type Agency } from "@/config/brand";
+import { agencies, toMap, MAP_H, type Agency } from "@/config/brand";
 
 /** Carte réelle de la Normandie (tuiles OpenStreetMap, version nuit) en 3D, 11 repères, caméra qui plane vers l'agence choisie. */
-const OVERVIEW_POS = new THREE.Vector3(4, 66, 54);
-const OVERVIEW_LOOK = new THREE.Vector3(4, 0, -6);
+const OVERVIEW_POS = new THREE.Vector3(0, 118, 56);
+const OVERVIEW_LOOK = new THREE.Vector3(0, 0, -2);
 /** dans la vue d'ensemble, on n'étiquette pas les agences du centre de Rouen (trop serrées) */
-const CLUSTERED = new Set(["siege", "sotteville", "unovia", "rive-droite"]);
+const CLUSTERED = new Set(["siege", "unovia"]);
 type LabelRefs = MutableRefObject<Record<string, HTMLDivElement | null>>;
 
 function MapPlane({ mobile }: { mobile: boolean }) {
@@ -21,11 +21,11 @@ function MapPlane({ mobile }: { mobile: boolean }) {
   return (
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, 0]} receiveShadow>
-        <planeGeometry args={[100, 100]} />
+        <planeGeometry args={[100, MAP_H]} />
         <meshBasicMaterial map={tex} toneMapped={false} />
       </mesh>
       <mesh position={[0, -0.65, 0]}>
-        <boxGeometry args={[100.4, 1.2, 100.4]} />
+        <boxGeometry args={[100.4, 1.2, MAP_H + 0.4]} />
         <meshStandardMaterial color="#1a1715" roughness={0.9} />
       </mesh>
     </group>
@@ -65,7 +65,7 @@ function LabelProjector({ labels, selected, mobile }: { labels: LabelRefs; selec
       const show = selected ? selected.id === a.id : !mobile && !CLUSTERED.has(a.id);
       if (!show) { el.style.opacity = "0"; continue; }
       const [x, z] = toMap(a.lat, a.lng);
-      v.set(x, 3.2, z).project(camera);
+      v.set(x, 2.9, z).project(camera);
       el.style.transform = `translate(-50%, -100%) translate(${(v.x * 0.5 + 0.5) * size.width}px, ${(-v.y * 0.5 + 0.5) * size.height}px)`;
       el.style.opacity = v.z < 1 ? "1" : "0";
     }
@@ -85,7 +85,7 @@ function Rig({ selected, mobile }: { selected: Agency | null; mobile: boolean })
       target.current.set(x + (mobile ? 0 : 5), mobile ? 30 : 22, z + (mobile ? 26 : 20));
       lookTarget.current.set(x, 0.5, z - 1);
     } else {
-      target.current.set(OVERVIEW_POS.x, mobile ? 100 : 66, mobile ? 70 : 54);
+      target.current.set(OVERVIEW_POS.x, mobile ? 150 : 118, mobile ? 64 : 56);
       lookTarget.current.copy(OVERVIEW_LOOK);
     }
     const k = 1 - Math.exp(-dt * 3.2);
@@ -100,7 +100,7 @@ export default function MapScene({ selected, onSelect, mobile = false }: { selec
   const labels = useRef<Record<string, HTMLDivElement | null>>({});
   return (
     <div className="absolute inset-0">
-      <Canvas dpr={[1, mobile ? 1.5 : 2]} shadows={!mobile} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }} camera={{ fov: 32, near: 1, far: 400, position: OVERVIEW_POS.toArray() }} style={{ background: "transparent" }} onPointerMissed={() => onSelect(null)}>
+      <Canvas dpr={[1, mobile ? 1.5 : 2]} shadows={!mobile} gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }} camera={{ fov: 40, near: 1, far: 500, position: OVERVIEW_POS.toArray() }} style={{ background: "transparent" }} onPointerMissed={() => onSelect(null)}>
         <ambientLight intensity={1.0} />
         <directionalLight position={[-40, 70, 30]} intensity={1.4} color="#ffe9d2" castShadow={!mobile} shadow-mapSize={[1024, 1024]} shadow-camera-left={-60} shadow-camera-right={60} shadow-camera-top={60} shadow-camera-bottom={-60} />
         <Suspense fallback={null}><MapPlane mobile={mobile} /></Suspense>
@@ -110,7 +110,7 @@ export default function MapScene({ selected, onSelect, mobile = false }: { selec
       </Canvas>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {agencies.map((a) => (
-          <div key={a.id} ref={(el) => { labels.current[a.id] = el; }} className={`absolute left-0 top-0 whitespace-nowrap rounded-full px-3 py-1 text-[10.5px] font-semibold tracking-[0.14em] transition-opacity duration-200 ${selected?.id === a.id ? "bg-copper text-white" : "glass text-ivory"}`} style={{ opacity: 0, willChange: "transform" }}>
+          <div key={a.id} ref={(el) => { labels.current[a.id] = el; }} className={`absolute left-0 top-0 whitespace-nowrap rounded-full px-2.5 py-0.5 text-[9.5px] font-semibold tracking-[0.12em] transition-opacity duration-200 ${selected?.id === a.id ? "bg-copper text-white" : "glass text-ivory"}`} style={{ opacity: 0, willChange: "transform" }}>
             {a.name.toUpperCase()}
           </div>
         ))}

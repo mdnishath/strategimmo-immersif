@@ -32,7 +32,7 @@ export default function Agences() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-          <Reveal className="panel relative aspect-[4/3] overflow-hidden rounded-2xl shadow-card md:aspect-[16/10]">
+          <Reveal className="panel relative aspect-[4/3] overflow-hidden rounded-2xl shadow-card md:aspect-[5/4] lg:min-h-[640px]">
             {webgl && <MapScene selected={sel} onSelect={setSel} mobile={mobile} />}
             {webgl === false && <div className="absolute inset-0 bg-[url('/map/normandy-dark-1k.jpg')] bg-cover bg-center" />}
             <p className="pointer-events-none absolute bottom-3 left-4 text-[0.56rem] uppercase tracking-[0.16em] text-stone">Carte © OpenStreetMap contributors</p>

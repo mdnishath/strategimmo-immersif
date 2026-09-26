@@ -54,24 +54,31 @@ export default function Estimation() {
   return (
     <section id="estimation" className="relative bg-coal py-24 md:py-36">
       <div className="container-x">
-        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28">
-            <Reveal>
-              <p className="eyebrow mb-5 flex items-center gap-3"><span className="h-px w-8 bg-copper" />Estimation gratuite</p>
-              <Lines className="font-display text-[clamp(2.5rem,5.4vw,4.8rem)] font-medium leading-[1.0] text-ivory">
-                <span>Estimez instantanément</span>
-                <span>la valeur de votre <em className="italic-display gold-text">bien</em>.</span>
-              </Lines>
-              <p className="mt-6 max-w-md text-[0.95rem] leading-relaxed text-mist">Cinq étapes, deux minutes. Une première fourchette basée sur les ventes réelles de votre secteur, puis un conseiller de l&apos;agence la plus proche l&apos;affine avec vous.</p>
-              <ul className="mt-6 space-y-2 text-sm text-ivory/80">
+        <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+          <Reveal>
+            <p className="eyebrow mb-5 flex items-center gap-3"><span className="h-px w-8 bg-copper" />Estimation gratuite</p>
+            <Lines className="font-display text-[clamp(2.5rem,5.4vw,4.8rem)] font-medium leading-[1.0] text-ivory">
+              <span>Estimez instantanément</span>
+              <span>la valeur de votre <em className="italic-display gold-text">bien</em>.</span>
+            </Lines>
+          </Reveal>
+          <Reveal delay={0.1}><p className="max-w-sm text-[0.95rem] leading-relaxed text-mist">Cinq étapes, deux minutes. Une première fourchette basée sur les ventes réelles de votre secteur.</p></Reveal>
+        </div>
+        <div className="grid items-start gap-6 lg:grid-cols-[1fr_1.3fr] lg:gap-8">
+          <div className="flex flex-col gap-4">
+            <Reveal className="panel rounded-2xl p-7">
+              <p className="eyebrow">Comment ça marche</p>
+              <p className="mt-3 max-w-md text-[0.95rem] leading-relaxed text-mist">Cinq étapes, deux minutes. Une première fourchette basée sur les ventes réelles de votre secteur, puis un conseiller de l&apos;agence la plus proche l&apos;affine avec vous.</p>
+              <ul className="mt-5 space-y-2 text-sm text-ivory/80">
                 {["Gratuit et sans engagement", "Données de ventes récentes de votre quartier", "Un conseiller vous rappelle sous 24 h ouvrées"].map((t) => (
                   <li key={t} className="flex items-center gap-3"><span className="flex h-5 w-5 items-center justify-center rounded-full bg-copper/15 text-[0.62rem] text-copper">✓</span>{t}</li>
                 ))}
               </ul>
             </Reveal>
-            <Reveal delay={0.15} className="photo-zoom relative mt-10 hidden aspect-[4/3] overflow-hidden rounded-2xl lg:block">
+            <Reveal delay={0.15} className="photo-zoom relative hidden aspect-[4/3] overflow-hidden rounded-2xl lg:block">
               <Image src="/biens/coup-de-coeur-02-md.jpg" alt="Pièce de vie, Anneville-Ambourville" fill sizes="40vw" className="object-cover" />
-              <span className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.22em] text-ivory/80">Anneville-Ambourville · vendu par le réseau</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-night/80 to-transparent" />
+              <span className="absolute bottom-4 left-5 text-[0.6rem] uppercase tracking-[0.22em] text-ivory/80">Anneville-Ambourville · en vente dans le réseau</span>
             </Reveal>
           </div>
 

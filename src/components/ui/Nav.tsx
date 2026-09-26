@@ -1,17 +1,19 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import Button from "./Button";
 import { brand, agencies } from "@/config/brand";
 
 export const NAV_LINKS = [
-  { href: "#biens", id: "biens", label: "Biens" },
-  { href: "#vendre", id: "vendre", label: "Vendre" },
-  { href: "#agences", id: "agences", label: "Nos agences" },
-  { href: "#estimation", id: "estimation", label: "Estimation" },
-  { href: "#avis", id: "avis", label: "Avis" },
-  { href: "#contact", id: "contact", label: "Contact" },
+  { href: "/#biens", id: "biens", label: "Biens" },
+  { href: "/#vendre", id: "vendre", label: "Vendre" },
+  { href: "/#agences", id: "agences", label: "Nos agences" },
+  { href: "/#estimation", id: "estimation", label: "Estimation" },
+  { href: "/#avis", id: "avis", label: "Avis" },
+  { href: "/#contact", id: "contact", label: "Contact" },
 ];
 
 export function useActiveSection(ids: string[]) {
@@ -72,9 +74,9 @@ export default function Nav() {
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${scrolled && !open ? "border-b border-ivory/8 bg-night/75 backdrop-blur-md" : "bg-transparent"}`}>
         <div className="flex h-[84px] w-full items-center justify-between gap-6 px-5 sm:px-8 lg:px-10">
-          <a href="#top" aria-label="Accueil" className="relative z-10 shrink-0" onClick={() => setOpen(false)}>
+          <Link href="/#top" aria-label="Accueil" className="relative z-10 shrink-0" onClick={() => setOpen(false)}>
             <Logo width={180} />
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-7 xl:flex" aria-label="Navigation principale">
             {NAV_LINKS.map((l) => {
@@ -92,7 +94,7 @@ export default function Nav() {
             <a href={brand.phones[0].href} className="hidden items-center gap-2 whitespace-nowrap text-sm font-semibold text-ivory/85 transition-colors hover:text-copper 2xl:flex">
               <PhoneIcon />{brand.phones[0].label}
             </a>
-            <Button href="#estimation" variant="ghost">Estimer mon bien</Button>
+            <Button href="/#estimation" variant="ghost">Estimer mon bien</Button>
           </div>
 
           <button type="button" aria-label={open ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)} className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-ivory/15 bg-night/40 backdrop-blur-sm xl:hidden">
@@ -122,7 +124,7 @@ export default function Nav() {
             ))}
           </ul>
           <div style={{ transitionDelay: open ? "380ms" : "0ms" }} className={`mt-8 flex flex-col gap-3 transition-all duration-400 ${open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}>
-            <Button href="#estimation" size="lg" className="w-full" onClick={() => setOpen(false)}>Estimer mon bien gratuitement</Button>
+            <Button href="/#estimation" size="lg" className="w-full" onClick={() => setOpen(false)}>Estimer mon bien gratuitement</Button>
             <div className="grid grid-cols-2 gap-3">
               {brand.phones.map((p) => (
                 <a key={p.href} href={p.href} className="flex h-12 items-center justify-center gap-2 rounded-full border border-ivory/20 text-sm font-semibold text-ivory"><PhoneIcon /> {p.label}</a>
